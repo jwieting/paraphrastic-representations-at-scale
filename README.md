@@ -17,6 +17,13 @@ To get started, download the data files used for training from http://www.cs.cmu
     
 If you use our code, models, or data for your work please cite:
 
+    @article{wieting2021paraphrastic,
+        title={Paraphrastic Representations at Scale},
+        author={Wieting, John and Gimpel, Kevin and Neubig, Graham and Berg-Kirkpatrick, Taylor},
+        journal={arXiv preprint arXiv:2104.15114},
+        year={2021}
+    }
+
     @inproceedings{wieting19simple,
         title={Simple and Effective Paraphrastic Similarity from Parallel Translations},
         author={Wieting, John and Gimpel, Kevin and Neubig, Graham and Berg-Kirkpatrick, Taylor},
@@ -27,10 +34,15 @@ If you use our code, models, or data for your work please cite:
 
 To embed a list of sentences:
 
-    python embed_sentences.py --sentence-file paraphrase-at-scale/example-sentences.txt --load-file paraphrase-at-scale/model.para.lc.100.pt  --sp-model paraphrase-at-scale/paranmt.model --output-file sentence_embeds.np
+    python -u embed_sentences.py --sentence-file paraphrase-at-scale/example-sentences.txt --load-file paraphrase-at-scale/model.para.lc.100.pt  --sp-model paraphrase-at-scale/paranmt.model --output-file sentence_embeds.np --gpu 0
     
 To score a list of sentence pairs:
 
-    python score_sentence_pairs.py --sentence-pair-file paraphrase-at-scale/example-sentences-pairs.txt --load-file paraphrase-at-scale/model.para.lc.100.pt  --sp-model paraphrase-at-scale/paranmt.model
+    python -u score_sentence_pairs.py --sentence-pair-file paraphrase-at-scale/example-sentences-pairs.txt --load-file paraphrase-at-scale/model.para.lc.100.pt  --sp-model paraphrase-at-scale/paranmt.model --gpu 0
+
+To train a model (for example, on ParaNMT):
+
+    python -u main.py --outfile model.para.out --lower-case 1 --tokenize 0 --data-file paraphrase-at-scale/paranmt.sim-low=0.4-sim-high=1.0-ovl=0.7.final.h5 \
+           --model avg --dim 1024 --epochs 25 --dropout 0.0 --sp-model paraphrase-at-scale/paranmt.model --megabatch-size 100 --save-every-epoch 1 --gpu 0 --vocab-file paraphrase-at-scale/paranmt.sim-low=0.4-sim-high=1.0-ovl=0.7.final.vocab
 
 To download and preprocess raw data for training models (both bilingual and ParaNMT), see preprocess/bilingual and preprocess/paranmt.

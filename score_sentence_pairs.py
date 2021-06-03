@@ -80,6 +80,7 @@ if __name__ == '__main__':
 
     parser.add_argument("--load-file", help="path to saved model")
     parser.add_argument("--sp-model", help="sentencepiece model to use")
+    parser.add_argument("--gpu", default=1, type=int, help="whether to train on gpu")
     parser.add_argument("--sentence-pair-file", help="sentence file")
 
     args = parser.parse_args()

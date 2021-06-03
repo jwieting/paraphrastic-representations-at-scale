@@ -31,6 +31,8 @@ parser.add_argument("--zero-unk", default=1, type=int, help="whether to ignore u
 parser.add_argument("--load-file", help="filename to load a pretrained model.")
 parser.add_argument("--save-every-epoch", default=0, type=int, help="whether to save a checkpoint every epoch")
 parser.add_argument("--save-final", type=int, default=0, help="save final model")
+parser.add_argument("--save-interval", type=int, default=10000, help="frequency (in batches) to evaluate and save model")
+parser.add_argument("--report-interval", type=int, default=10000, help="frequency (in batches) to report training status of epoch")
 parser.add_argument("--outfile", default="model", help="output file name")
 parser.add_argument("--hidden-dim", default=150, type=int, help="hidden dim size of LSTM")
 parser.add_argument("--delta", default=0.4, type=float, help="margin")

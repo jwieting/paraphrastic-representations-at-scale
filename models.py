@@ -13,7 +13,10 @@ from evaluate_sts import evaluate_sts
 from torch import optim
 
 def load_model(data, args):
-    model = torch.load(args.load_file)
+    if not args.gpu:
+        model = torch.load(args.load_file, map_location=torch.device('cpu'))
+    else:
+        model = torch.load(args.load_file)
 
     state_dict = model['state_dict']
     model_args = model['args']
@@ -22,8 +25,11 @@ def load_model(data, args):
     optimizer = model['optimizer']
     epoch = model['epoch'] + 1
 
-    model_args.sp_model = args.sp_model
-    model_args.megabatch_anneal = args.megabatch_anneal
+    if 'sp_model' in args:
+        model_args.sp_model = args.sp_model
+    if 'megabatch_anneal' in args:
+        model_args.megabatch_anneal = args.megabatch_anneal
+    model_args.gpu = args.gpu
 
     if model_args.model == "avg":
         model = Averaging(data, model_args, vocab, vocab_fr)
@@ -43,6 +49,7 @@ class ParaModel(nn.Module):
         self.args = args
         self.gpu = args.gpu
         self.save_interval = args.save_interval
+        self.report_interval = args.report_interval
 
         self.vocab = vocab
         self.rev_vocab = {v:k for k,v in vocab.items()}
@@ -161,7 +168,8 @@ class ParaModel(nn.Module):
 
                     self.ep_loss += cost.item()
                     counter += 1
-                    print("Epoch {0}, Counter {1}/{2}".format(ep, counter, len(self.mb)))
+                    if counter % self.report_interval == 0:
+                        print("Epoch {0}, Counter {1}/{2}".format(ep, counter, len(self.mb)))
                     if self.save_interval > 0 and counter > 0:
                         if counter % self.save_interval == 0:
                             self.eval()
