@@ -17,9 +17,10 @@ fi
 
 if [ ! -f "para-nmt-50m.txt" ]
 then
-    wget http://phontron.com/data/para-nmt-50m.zip
+    wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1rbF3daJjCsa1-fu2GANeJd2FBXos1ugD' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1rbF3daJjCsa1-fu2GANeJd2FBXos1ugD" -O para-nmt-50m.zip 
     unzip para-nmt-50m.zip
-    rm para-nmt-50m.zip
+    mv para-nmt-50m/para-nmt-50m.txt .
+    rm -Rf /tmp/cookies.txt para-nmt-50m.zip para-nmt-50m
 fi
 
 bash add_language_labels.sh
