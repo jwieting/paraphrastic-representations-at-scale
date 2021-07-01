@@ -49,7 +49,10 @@ class ParaModel(nn.Module):
         self.args = args
         self.gpu = args.gpu
         self.save_interval = args.save_interval
-        self.report_interval = args.report_interval
+        if "report_interval" in args:
+            self.report_interval = args.report_interval
+        else:
+            self.report_interval = args.save_interval
 
         self.vocab = vocab
         self.rev_vocab = {v:k for k,v in vocab.items()}
