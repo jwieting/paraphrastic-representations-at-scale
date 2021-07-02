@@ -6,7 +6,7 @@ The code is written in Python 3.7 and requires H5py, jieba, numpy, scipy, senten
 
     pip install -r requirements.txt
 
-To get started, download the data files used for training from http://www.cs.cmu.edu/~jwieting and download the STS evaluation data:
+To get started, download the pre-trained models, data files used for training, and the STS evaluation data:
 
     wget http://phontron.com/data/paraphrase-at-scale.zip
     unzip paraphrase-at-scale.zip
@@ -14,7 +14,11 @@ To get started, download the data files used for training from http://www.cs.cmu
     wget http://www.cs.cmu.edu/~jwieting/STS.zip .
     unzip STS.zip
     rm STS.zip
-    
+
+To download only the English model trained on ParaNMT:
+
+    wget http://www.cs.cmu.edu/~jwieting/paraphrase-at-scale-english.zip .
+
 If you use our code, models, or data for your work please cite:
 
     @article{wieting2021paraphrastic,
