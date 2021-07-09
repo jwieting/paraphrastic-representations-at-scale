@@ -1,5 +1,11 @@
 import nltk
 
+try:
+    nltk.data.find('tokenizers/punkt/PY3/english.pickle')
+except LookupError:
+    nltk.download('punkt')
+
+
 def get_overlap(t, r, type):
     if type == 2:
         temp = []
